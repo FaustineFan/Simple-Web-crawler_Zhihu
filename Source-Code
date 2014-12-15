@@ -20,7 +20,7 @@ class bazhihu
 		InetAddress ip=InetAddress.getByName("www.zhihu.com");
 		System.out.println("ipAddress:"+ip.getHostAddress());
 		
-		URL url=new URL("http://60.28.215.70");
+		URL url=new URL("http://60.28.215.70");//该ip地址是通过知乎域名用上面两句代码得到
 		URLConnection conn=url.openConnection();//与知乎主页建立连接
 		//从知乎主页获取内容
 		BufferedReader bufIn=new BufferedReader(new InputStreamReader(conn.getInputStream()));
