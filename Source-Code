@@ -1,0 +1,49 @@
+/*
+从知乎网上扒网页内容到本地存储,并用正则筛选出一部分网址
+*/
+
+import java.io.*;
+import java.net.*;
+import java.util.regex.*;
+
+class bazhihu
+{
+	public static void main(String[] args)throws Exception
+	{
+		baDemo();
+	}
+	public static void baDemo()throws Exception
+	{
+		//InetAddress i=InetAddress.getLocalHost();
+		//System.out.println(i.toString());
+		
+		InetAddress ip=InetAddress.getByName("www.zhihu.com");
+		System.out.println("ipAddress:"+ip.getHostAddress());
+		
+		URL url=new URL("http://60.28.215.70");
+		URLConnection conn=url.openConnection();//与知乎主页建立连接
+		//从知乎主页获取内容
+		BufferedReader bufIn=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		//准备写入本地硬盘中的新txt文件
+		BufferedWriter bufw=new BufferedWriter(new FileWriter("zhihu.txt"));
+		
+		String line=null;
+		
+		String httpreg="\\w{4}\\W+(\\w+\\.)+\\w+\\W(\\w+\\W)+\\.\\w+";//将其中一部分网址筛选出来的代码
+		Pattern p=Pattern.compile(httpreg);
+		
+		while((line=bufIn.readLine())!=null)
+		{
+			Matcher m=p.matcher(line);//匹配器对象m，并且让要作用的line字符串与正则对象p建立联系
+			while(m.find())
+			{
+				System.out.println(m.group());
+			}
+			//System.out.println(line);
+			bufw.write(line);
+			bufw.newLine();
+			bufw.flush();
+		}
+		bufw.close();
+	}
+}
